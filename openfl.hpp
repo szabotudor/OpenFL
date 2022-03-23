@@ -8,7 +8,6 @@ enum class RWType {
 };
 
 class OpenFL {
-	std::ofstream fout;
 public:
 	OpenFL(const OpenFL&) = delete;
 	void operator=(const OpenFL&) = delete;
@@ -24,7 +23,7 @@ public:
 
 	const char* filePath = nullptr;
 
-	//Contents of the file stored as a char array, with '\0' added at the end
+	//Contents of the file stored as a char array, with '\0' added at the end (this won't be used in WRITE mode)
 	const char* fileContents = nullptr;
 
 	/// <param name="readWriteType">The way to open the file (read or write mode)</param>
@@ -39,14 +38,8 @@ public:
 		if (isOpen)
 			close();
 
-		if (fileContents != nullptr)
-			delete[] fileContents;
-		if (filePath != nullptr)
-			delete[] filePath;
-
 		filePath = new char[std::strlen(path) + 1];
 		memcpy((char*)filePath, path, std::strlen(path) + 1);
-
 
 		(*(RWType*)(&fileRWType)) = readWriteType;
 		switch (readWriteType) {
@@ -70,14 +63,13 @@ public:
 			break;
 		}
 		case RWType::WRITE: {
-			fout = std::ofstream(path, std::ios::binary);
-			if (!fout.is_open()) {
+			std::ifstream fchk{ path, std::ios::binary };
+			if (!fchk.is_open())
 				(*(bool*)(&isOpen)) = false;
-				fout.close();
-				return;
-			}
 			else
 				(*(bool*)(&isOpen)) = true;
+
+			fchk.close();
 
 			break;
 		}
@@ -93,15 +85,24 @@ public:
 	/// <param name="append">If true, instead of overwriting the existing file contents, the given string will be appended to the existing file contents</param>
 	void storeString(std::string s, bool append = false) {
 		if (fileRWType == RWType::WRITE) {
-
+			std::ofstream* fout;
+			if (append)
+				fout = new std::ofstream(filePath, std::ios::app);
+			else
+				fout = new std::ofstream(filePath);
+			(*fout) << s;
+			fout->close();
+			delete fout;
 		}
 	}
 
 	//Close the file and free loaded file contents if the file was opened in READ mode
 	void close() {
 		delete[] fileContents;
+		fileContents = nullptr;
 		delete[] filePath;
-		fout.close();
+		filePath = nullptr;
+		(*(bool*)(&isOpen)) = false;
 	}
 
 	~OpenFL() {
