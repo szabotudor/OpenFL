@@ -11,6 +11,7 @@ Just include it and you're good to go!
 + You want to more easily save and load data for games, or other more complex applications (not fully supported yet)
 
 # How to use it
++ Download `openfl.hpp` and include it in your project
 + Create a variable of type OpenFL, and chose wether you want to write or read from the file at the given path
   + `OpenFL f { RWType::READ, "path/to/file.xyz" };`
 + Use "storeString()" to store a string when you are in write mode
