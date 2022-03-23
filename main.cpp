@@ -1,3 +1,4 @@
+//This is a test file used when debugging the library. You shouldn't be including this in your project
 #include"openfl.hpp"
 
 
