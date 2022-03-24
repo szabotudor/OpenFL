@@ -25,6 +25,6 @@ Just include it and you're good to go!
 # Future plans
 - [ ] CSV support, with option for custom sepparator
 - [ ] JSON support
-- [ ] Custom file format OFL support, made for storing stuff like game data
+- [ ] Custom file format OFL support, optimized for storing game data
 - [ ] Create a DLL version, for faster compile times
 - [ ] BMP loading for OpenGL
