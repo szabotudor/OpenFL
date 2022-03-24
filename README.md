@@ -21,3 +21,10 @@ Just include it and you're good to go!
   + `string s = f.fileContents;` variable `s` now holds the contents of the file
 + Use "len" to get the length of the loaded file
   + `int x = f.len;` varible `x` now holds the length or size of the file contents
+
+# Future plans
+- [ ] CSV support, with option for custom sepparator
+- [ ] JSON support
+- [ ] Custom file format OFL support, made for storing stuff like game data
+- [ ] Create a DLL version, for faster compile times
+- [ ] BMP loading for OpenGL
